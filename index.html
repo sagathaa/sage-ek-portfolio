@@ -23,10 +23,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .page.active{opacity:1;pointer-events:all}
 /* HOME */
 #home{display:flex;height:100vh}
-.home-left{width:52%;background:var(--f);position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:52px 48px;overflow:hidden}
+.home-left{width:52%;background:var(--f);position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:52px 48px;overflow:visible}
 .home-label{position:absolute;top:82px;left:48px;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(242,237,227,.4);z-index:2}
 .ghost{position:absolute;top:10%;right:-15px;font-family:'Playfair Display',serif;font-size:clamp(180px,22vw,290px);font-weight:700;font-style:italic;color:rgba(200,241,53,.06);line-height:1;user-select:none;pointer-events:none}
-.sage-photo{position:absolute;bottom:110px;left:50%;transform:translateX(-50%);width:72%;z-index:1}
+.sage-photo{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:62%;z-index:1;top:auto}
 .sage-photo img{width:100%;height:auto;display:block}
 .spin-ring{position:absolute;top:19%;right:11%;width:50px;height:50px;border:1.5px solid rgba(200,241,53,.25);border-radius:50%;animation:spin 10s linear infinite}
 .name-block{z-index:2;position:relative}
@@ -98,6 +98,67 @@ h1 span{color:var(--l)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .home-left,.home-right{animation:fadeUp .8s ease both}
 .home-right{animation-delay:.15s}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  html,body{overflow:auto}
+  #cur{display:none}
+  nav{padding:14px 20px}
+  .logo{font-size:18px}
+  .nav-links{display:none}
+  .nav-cta{padding:8px 16px;font-size:11px}
+
+  /* HOME */
+  #home > div{flex-direction:column;height:auto;min-height:100vh}
+  .home-left{width:100%;height:60vh;min-height:380px;padding:32px 24px 24px}
+  .home-label{top:68px;left:24px;font-size:9px}
+  .ghost{font-size:clamp(120px,40vw,180px);top:8%;right:-10px}
+  .spin-ring{top:16%;right:8%}
+  .sage-photo{width:56%;bottom:0}
+  .name-block{position:relative;z-index:2}
+  h1{font-size:clamp(38px,10vw,56px)}
+
+  .home-right{width:100%;padding:32px 24px 80px;overflow-y:auto}
+  .hey{margin-bottom:8px}
+  .headline{font-size:18px;margin-bottom:16px}
+  .stats{gap:16px;margin-bottom:16px}
+  .stat-n{font-size:22px}
+  .bio{font-size:13px;max-width:100%;margin-bottom:20px}
+  .btn{padding:11px 24px;font-size:13px}
+  .avail{margin-top:20px}
+
+  /* WORK */
+  #work{overflow-y:auto;height:100vh}
+  .work-hero{padding:40px 24px 28px}
+  .work-grid{grid-template-columns:1fr}
+  .work-card{aspect-ratio:16/9}
+  .work-overlay{opacity:1;background:linear-gradient(to top,rgba(10,20,12,.85) 0%,transparent 60%)}
+
+  /* PROJECT PAGES */
+  .proj{overflow-y:auto;height:100vh}
+  .proj-hero{grid-template-columns:1fr;min-height:auto}
+  .proj-hero-img{height:280px}
+  .proj-hero-text{padding:32px 24px}
+  .proj-title{font-size:clamp(26px,7vw,38px)}
+  .proj-desc{font-size:13px;max-width:100%}
+  .proj-stats{gap:16px;flex-wrap:wrap}
+  .proj-gallery.two,.proj-gallery.three{grid-template-columns:1fr 1fr}
+  .proj-gallery img{aspect-ratio:1/1}
+  .proj-story{padding:36px 24px}
+  .proj-story p{font-size:14px}
+  .back-btn{margin:0 24px 24px}
+
+  /* TICKER */
+  .ticker{padding:7px 0}
+  .tick{font-size:10px}
+}
+
+@media(max-width:480px){
+  .sage-photo{width:64%;bottom:0}
+  .home-left{height:55vh;min-height:340px}
+  .proj-gallery.two,.proj-gallery.three{grid-template-columns:1fr}
+  .proj-stats{gap:12px}
+}
 </style>
 </head>
 <body>
@@ -107,7 +168,7 @@ h1 span{color:var(--l)}
  <div class="nav-links">
  <a onclick="show('home')">Home</a>
  <a onclick="show('work')">Work</a>
- <a href="mailto:sagelesueur@gmail.com">Contact</a>
+ <a href="/cdn-cgi/l/email-protection#8af9ebedefe6eff9ffeffff8caede7ebe3e6a4e9e5e7">Contact</a>
  </div>
  <button class="nav-cta" onclick="show('work')">View Work →</button>
 </nav>
@@ -263,7 +324,7 @@ h1 span{color:var(--l)}
  </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const cur=document.getElementById('cur');
 document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
 document.querySelectorAll('button,a,[onclick]').forEach(el=>{
@@ -274,12 +335,4 @@ function show(id){
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
  document.getElementById(id).classList.add('active');
  const el=document.getElementById(id);
- if(el.scrollTop!==undefined)el.scrollTop=0;
-}
-function tog(el){
- document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
- el.classList.add('on');
-}
-</script>
-</body>
-</html>
+ if(el.scrollTop!==undefined)el.scrollT
